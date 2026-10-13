@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Love Quiz ❤️</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #ffd6e7, #f7b7d2, #e9c9ff);
+  color: #7a2048;
+}
+
+.card {
+  background: white;
+  width: 100%;
+  max-width: 420px;
+  padding: 30px 22px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 10px 35px #a83e6a35;
+}
+
+.heart {
+  font-size: 55px;
+  animation: beat 1s infinite;
+}
+
+@keyframes beat {
+  50% { transform: scale(1.12); }
+}
+
+h1 { font-size: 27px; }
+p { line-height: 1.6; }
+
+.progress {
+  height: 8px;
+  background: #ffe3ef;
+  border-radius: 20px;
+  margin: 22px 0;
+  overflow: hidden;
+}
+
+#bar {
+  height: 100%;
+  width: 0%;
+  background: #ed5794;
+  transition: width .3s;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  margin: 7px 0;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #ffe4ef;
+  color: #8b2451;
+  transition: transform .15s;
+}
+
+button:active { transform: scale(.97); }
+
+.primary {
+  background: #ed5794;
+  color: white;
+}
+
+.small {
+  font-size: 12px;
+  font-weight: normal;
+  color: #b66a8b;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <div class="heart">💗</div>
+  <h1 id="title">Hey, My Love!</h1>
+  <p id="question">
+    I have a few very important questions for you, baby.
+    Answer honestly... because I will be judging your answers
+    with lots of love 😂❤️
+  </p>
+
+  <div class="progress">
+    <div id="bar"></div>
+  </div>
+
+  <div id="answers">
+    <button class="primary" onclick="startQuiz()">
+      Start our little love quiz 💕
+    </button>
+  </div>
+
+  <p class="small" id="counter">Made with love, just for you ❤️</p>
+</div>
+
+<script>
+const questions = [
+  {
+    q: "First things first... do you love me, baby? 🥹❤️",
+    a: ["More than anything ❤️", "Of course I do 🥰", "Silly question, baby 😂"]
+  },
+  {
+    q: "How much do you love me? 💗",
+    a: ["To the moon and back 🌙", "More than words can explain 💕", "INFINITE AMOUNT ♾️"]
+  },
+  {
+    q: "Do I make you happy, even on your bad days? 🫶",
+    a: ["Yes, you always do ❤️", "You make everything better 🥹", "You're my happy place 💗"]
+  },
+  {
+    q: "If you could hug me right now, would you? 🤗",
+    a: ["I'd never let go 🥺", "Come here right now! ❤️", "I'd squeeze you so tight 😂"]
+  },
+  {
+    q: "Do you miss me when we're not together? 🥺",
+    a: ["Every single second 💕", "Way more than I admit 🙈", "I always want you around ❤️"]
+  },
+  {
+    q: "Do you still get butterflies because of me? 🦋",
+    a: ["YESSSS 😭❤️", "Especially when you look at me 🥰", "You still make me nervous 💗"]
+  },
+  {
+    q: "Would you choose me all over again? 💍",
+    a: ["Every time, without a doubt ❤️", "A million times over 🥹", "You're my person 💕"]
+  },
+  {
+    q: "Can you imagine a future with me? 🏡",
+    a: ["I can't wait for our future ❤️", "You are part of my plans 🥰", "I want to grow with you 💗"]
+  },
+  {
+    q: "Do you feel safe being yourself around me? 🫂",
+    a: ["Yes, I can be completely me ❤️", "You make me feel understood 🥹", "I'm still learning, but I trust you 💗"]
+  },
+  {
+    q: "Last question, my baby... are you really mine? 😭💕",
+    a: ["All yours, baby ❤️", "Your girl, always 🥹", "Come claim your hug first 😂💋"]
+  }
+];
+
+let current = 0;
+let chosenAnswers = [];
+
+function startQuiz() {
+  current = 0;
+  chosenAnswers = [];
+  showQuestion();
+}
+
+function showQuestion() {
+  document.getElementById("title").textContent =
+    "Question " + (current + 1) + " 💕";
+
+  document.getElementById("question").textContent =
+    questions[current].q;
+
+  document.getElementById("bar").style.width =
+    (current / questions.length * 100) + "%";
+
+  document.getElementById("counter").textContent =
+    (current + 1) + " of " + questions.length + " questions ❤️";
+
+  const answers = document.getElementById("answers");
+  answers.innerHTML = "";
+
+  questions[current].a.forEach(answer => {
+    const btn = document.createElement("button");
+    btn.textContent = answer;
+    btn.onclick = () => selectAnswer(answer);
+    answers.appendChild(btn);
+  });
+}
+
+function selectAnswer(answer) {
+  chosenAnswers.push(answer);
+  current++;
+
+  if (current < questions.length) {
+    showQuestion();
+  } else {
+    finishQuiz();
+  }
+}
+
+function finishQuiz() {
+  document.getElementById("bar").style.width = "100%";
+  document.getElementById("title").textContent = "I Love You! ❤️";
+  document.getElementById("question").innerHTML =
+    "Thank you for answering my little questions, baby. 🥹💕<br><br>" +
+    "No matter how many questions I ask, the one thing I hope " +
+    "you always know is how much you mean to me.<br><br>" +
+    "You're special to me in ways I can't always explain. " +
+    "I love your smile, your hugs, your kisses, and all the " +
+    "little things that make you YOU.<br><br>" +
+    "I don't just want you for today. I want to keep making " +
+    "memories with you, growing with you, laughing with you, " +
+    "and loving you through it all.<br><br>" +
+    "<strong>You're my girl, my baby, and someone I'm so " +
+    "grateful to have in my life. I love you, Lesanne. ❤️💋</strong>";
+
+  document.getElementById("answers").innerHTML =
+    '<button class="primary" onclick="showAnswers()">See your answers 💌</button>' +
+    '<button onclick="startQuiz()">Play again 🥰</button>';
+
+  document.getElementById("counter").textContent =
+    "Quiz completed with love 💗";
+}
+
+function showAnswers() {
+  document.getElementById("title").textContent =
+    "Your Love Answers 💕";
+
+  const question = document.getElementById("question");
+  question.innerHTML = "";
+
+  questions.forEach((item, i) => {
+    const line = document.createElement("p");
+    const strong = document.createElement("strong");
+    strong.textContent = item.q;
+
+    const answer = document.createElement("div");
+    answer.textContent = chosenAnswers[i];
+    answer.style.color = "#ed5794";
+    answer.style.marginTop = "5px";
+
+    line.appendChild(strong);
+    line.appendChild(document.createElement("br"));
+    line.appendChild(answer);
+    question.appendChild(line);
+  });
+
+  document.getElementById("answers").innerHTML =
+    '<button class="primary" onclick="startQuiz()">Do it again ❤️</button>';
+
+  document.getElementById("bar").style.width = "100%";
+  document.getElementById("counter").textContent =
+    "Every answer is a little memory 💗";
+}
+</script>
+</body>
+</html>
